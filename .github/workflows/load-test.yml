@@ -10,4 +10,3 @@ k6_load_test:
       uses: grafana/k6-action@v0.2.0
       with:
         filename: test.js
-        filename: grapql.js
