@@ -22,7 +22,7 @@ jobs:
         run: xk6 build --with github.com/grafana/xk6-dashboard@latest
     
       - name: Run k6 extension test
-        run: ./k6 run --out dashboard testdashboard.js
+        run: ./k6 run --out dashboard graphql.js
 
       - name: Upload Performance Test results
         uses: actions/upload-artifact@v3
