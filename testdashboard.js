@@ -11,14 +11,13 @@ export default function(){
 
     const res = http.get(url);
     check( res,{'Status Code': (r)=> r.status ===200});
-    const responseData = JSON.parse(res.body);
-    const data = responseData;
+    // const responseData = JSON.parse(res.body);
 
     // Print the count of IDs
-    console.log(`Number of IDs: ${data.length}`);
+    // console.log(`Number of IDs: ${data.length}`);
 
-    // Print all the names
-    data.forEach((item) => {
-        console.log(`ID: ${item.id}, Name: ${item.name}`);
-    });
+    // // Print all the names
+    // data.forEach((item) => {
+    //     console.log(`ID: ${item.id}, Name: ${item.name}`);
+    // });
 }
