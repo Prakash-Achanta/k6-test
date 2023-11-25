@@ -2,9 +2,8 @@
 name: k6 Single API Test with xk6-dashboard extension
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 13 * * *'  # Run at 1 PM every day
 
 jobs:
   k6_local_test:
@@ -37,7 +36,7 @@ jobs:
       - name: Upload Performance Test results
         uses: actions/upload-artifact@v3
         with:
-          name: k6-report
+          name: k6-singleTestreport
           path: testsingle-report.html
 
       - name: Send Email on Success

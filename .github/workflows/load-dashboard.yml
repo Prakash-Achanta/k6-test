@@ -2,9 +2,8 @@
 name: k6 GetUsers API Test with xk6-dashboard extension
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    - cron: '0 13 * * *'  # Run at 1 PM every day
 
 jobs:
   k6_local_test:
@@ -38,6 +37,21 @@ jobs:
       - name: Upload Performance Test results
         uses: actions/upload-artifact@v3
         with:
-          name: k6-report
+          name: k6-Getusers API report
           path: test-report.html
+
+      - name: Send Email
+        if: always() 
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: your-smtp-server.com
+          server_port: 587
+          username: your-email@example.com
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "k6 Load Test Succeeded"
+          body: "The k6 Load Test job succeeded. See the attached report for details."
+          to: achantas@geekyants.com
+          attachments: test-report.html
+      
+
     
