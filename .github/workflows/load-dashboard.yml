@@ -1,5 +1,5 @@
 
-name: k6 Load Test
+name: k6 Load Test with xk6-dashboard
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   k6_local_test:
-    name: k6 counter extension run
+    name: xk6 dashboard extension run
     runs-on: ubuntu-latest
     container: docker://golang:1.19-alpine
 
@@ -23,5 +23,6 @@ jobs:
         run: xk6 build --with github.com/grafana/xk6-dashboard@latest
 
       - name: Run k6 extension test
-        run: ./k6 run --out dashboard=report=test-report.html testdashboard.js
+        run: ./k6 run  testdashboard.js
+        flags: --out dashboard=report=test-report.html
     
