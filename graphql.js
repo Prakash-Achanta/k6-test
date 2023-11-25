@@ -1,6 +1,11 @@
 import { check } from 'k6';
 import http from 'k6/http'
 
+export const options = {
+  vus: 5,
+  duration: '3s',
+};
+
 const query =`query MyQuery {
     episode(id: "1") {
       air_date
@@ -9,7 +14,7 @@ const query =`query MyQuery {
       name
     }
   }`
-  
+
   const headers = {
     'Content-Type':'application/json'
   };
