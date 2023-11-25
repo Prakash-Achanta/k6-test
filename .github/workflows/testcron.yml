@@ -1,13 +1,13 @@
 
-name: k6 GetUsers API Test with xk6-dashboard extension
+name: TEST CRON JOB
 
 on:
   schedule:
-    - cron: '0 13 * * *'  # Run at 1 PM every day
+    - cron: '*/5 * * * *'  # Run at 1 PM every day
 
 jobs:
   k6_local_test:
-    name: xk6 dashboard Getusers API
+    name: TEST CRON JOB
     runs-on: ubuntu-latest
     container: docker://golang:1.19-alpine
 
