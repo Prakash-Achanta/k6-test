@@ -17,9 +17,13 @@ jobs:
         uses: grafana/k6-action@v0.2.0
         with:
           filename: test.js
-          flags: --out json=results.json
-      - name: Upload Performance test Results
-        uses: actions/upload-artifact@v3
-        with:
-          name: k6-report
-          path: result.json
+
+      - name: Archive k6 Test results
+        if: always()  # Always run, even if previous steps fail
+        run: |
+            # Archive the current test report
+            cp k6-report.json "k6-report-$(date +'%Y%m%d%H%M%S').json"
+  
+            # Cleanup old test reports, keep only the last 5
+            ls -t k6-report-* | tail -n +6 | xargs rm -f
+          

@@ -1,5 +1,5 @@
 
-name: k6 Load Test with xk6-dashboard extension
+name: k6 GetUsers API Test with xk6-dashboard extension
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   k6_local_test:
-    name: xk6 dashboard extension run
+    name: xk6 dashboard Getusers API
     runs-on: ubuntu-latest
     container: docker://golang:1.19-alpine
 
@@ -24,6 +24,16 @@ jobs:
 
       - name: Run k6 extension test
         run: ./k6 run --out dashboard=report=test-report.html  testdashboard.js
+
+      - name: Archive Performance Test results
+        if: always()  # Always run, even if previous steps fail
+        run: |
+          # Archive the current test report
+          cp test-report.html "test-report-$(date +'%Y%m%d%H%M%S').html"
+
+          # Cleanup old test reports, keep only the last 5
+          ls -t test-report-* | tail -n +6 | xargs rm -f
+
 
       - name: Upload Performance Test results
         uses: actions/upload-artifact@v3
