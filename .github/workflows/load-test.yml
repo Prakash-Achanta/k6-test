@@ -7,7 +7,7 @@ on:
 
 jobs:
         k6_local_test:
-          name: GraphQL Load Test
+          name: Load Test
           runs-on: ubuntu-latest
           container: docker://golang:1.19-alpine
           
@@ -23,8 +23,8 @@ jobs:
           
             - name: Run k6 extension test
               run: |
-                # Check if graphql-test.html exists
-                if [ ! -f graphql-test.html ]; then
+                # Check if load-test.html exists
+                if [ ! -f load-test.html ]; then
                   echo "Creating load-test.html"
                   echo "this is a test content" > load-test.html
                 fi
