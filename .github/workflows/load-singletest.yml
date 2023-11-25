@@ -30,4 +30,8 @@ jobs:
         with:
           name: k6-report
           path: testsingle-report.html
-    
+
+      - name: Send Email on Success
+        if: ${{ success() }}
+        run: |
+            echo "The Load Test Job Is Success. See the Report Attached for details." | mail -s "k6 Load Success" -A testsingle-report.html achantas@geekyants.com
