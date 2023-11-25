@@ -24,7 +24,7 @@ jobs:
       - name: Run k6 extension test
         run: |
           # Check if graphql-test.html exists
-          if[ ! -f graphql-test.html];then
+          if[ ! -f graphql-test.html]; then
             echo "Creating graphql-test.html"
             echo "this is a test content">graphql-test.html
           fi
