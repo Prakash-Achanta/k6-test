@@ -1,0 +1,57 @@
+
+name: k6 GetUsers API Test with xk6-dashboard extension
+
+on:
+  schedule:
+    - cron: '0 13 * * *'  # Run at 1 PM every day
+
+jobs:
+  k6_local_test:
+    name: xk6 dashboard Getusers API
+    runs-on: ubuntu-latest
+    container: docker://golang:1.19-alpine
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Install xk6
+        run: go install go.k6.io/xk6/cmd/xk6@latest
+
+      - name: Build xk6-counter binary
+        run: xk6 build --with github.com/grafana/xk6-dashboard@latest
+
+      - name: Run k6 extension test
+        run: ./k6 run --out dashboard=report=test-report.html  testdashboard.js
+
+      - name: Archive Performance Test results
+        if: always()  # Always run, even if previous steps fail
+        run: |
+          # Archive the current test report
+          cp test-report.html "test-report-$(date +'%Y%m%d%H%M%S').html"
+
+          # Cleanup old test reports, keep only the last 5
+          ls -t test-report-* | tail -n +6 | xargs rm -f
+
+
+      - name: Upload Performance Test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: k6-Getusers API report
+          path: test-report.html
+
+      - name: Send Email
+        if: always() 
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: your-smtp-server.com
+          server_port: 587
+          username: achantas@geekyants.com
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "k6 Load Test Succeeded"
+          body: "The k6 Load Test job succeeded. See the attached report for details."
+          to: achantas@geekyants.com
+          attachments: test-report.html
+      
+
+    
