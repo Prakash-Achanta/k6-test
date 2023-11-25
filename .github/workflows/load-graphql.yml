@@ -24,11 +24,12 @@ jobs:
       - name: Run k6 extension test
         run: |
           # Check if graphql-test.html exists
-          if[ ! -f graphql-test.html]; then
+          if [ ! -f graphql-test.html ]; then
             echo "Creating graphql-test.html"
-            echo "this is a test content">graphql-test.html
+            echo "this is a test content" > graphql-test.html
           fi
-          ./k6 run --out dashboard=report=greaphql-test.html graphql.js
+            
+          ./k6 run --out dashboard=report=graphql-test.html graphql.js
 
       - name: Upload Performance Test results
         uses: actions/upload-artifact@v3
