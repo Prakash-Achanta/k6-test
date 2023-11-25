@@ -47,7 +47,7 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          username: achantas@geekyants.com
+          username: achantaprakash
           password: ${{ secrets.EMAIL_PASSWORD }}
           subject: "k6 Load Test Succeeded"
           body: "The k6 Load Test job succeeded. See the attached report for details."
