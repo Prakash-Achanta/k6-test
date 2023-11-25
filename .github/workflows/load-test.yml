@@ -1,26 +1,38 @@
 name: k6 RestAPI Test
 
 on:
-  schedule:
-    - cron: '0 13 * * *'  # Run at 1 PM every day
+  push:
+    branches:
+      - main   # Run at 1 PM every day
 
 jobs:
-  k6_load_test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-
-      - name: Run local k6 test
-        uses: grafana/k6-action@v0.2.0
-        with:
-          filename: test.js
-
-      - name: Archive k6 Test results
-        if: always()  # Always run, even if previous steps fail
-        run: |
-
-          # Cleanup old test reports, keep only the last 5
-          ls -t k6-report-* | tail -n +6 | xargs rm -f
+        k6_local_test:
+          name: GraphQL Load Test
+          runs-on: ubuntu-latest
+          container: docker://golang:1.19-alpine
           
+          steps:
+            - name: Checkout
+              uses: actions/checkout@v1
+          
+            - name: Install xk6
+              run: go install go.k6.io/xk6/cmd/xk6@latest
+          
+            - name: Build xk6-counter binary
+              run: xk6 build --with github.com/grafana/xk6-dashboard@latest
+          
+            - name: Run k6 extension test
+              run: |
+                # Check if graphql-test.html exists
+                if [ ! -f graphql-test.html ]; then
+                  echo "Creating load-test.html"
+                  echo "this is a test content" > load-test.html
+                fi
+                  
+                ./k6 run --out dashboard=report=load-test.html test.js
+      
+            - name: Upload Performance Test results
+              uses: actions/upload-artifact@v3
+              with:
+                name: Load Test report
+                path: load-test.html
