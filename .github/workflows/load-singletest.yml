@@ -22,7 +22,14 @@ jobs:
         run: xk6 build --with github.com/grafana/xk6-dashboard@latest
 
       - name: Run k6 extension test
-        run: ./k6 run --out dashboard=report=test-report.html  testsingle.js
+        run: |
+          # Check if test-single.html exists
+          if [ ! -f test-single.html ]; then
+            echo "Creating test-single.html"
+            echo "this is a test content" > test-single.html
+          fi
+            
+          ./k6 run --out dashboard=report=test-single.html testsingle.js
 
       - name: Archive Performance Test results
         if: always()  # Always run, even if previous steps fail
@@ -35,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: k6-singleTestreport
-          path: test-report.html
+          path: test-single.html

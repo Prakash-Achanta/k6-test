@@ -22,7 +22,14 @@ jobs:
         run: xk6 build --with github.com/grafana/xk6-dashboard@latest
 
       - name: Run k6 extension test
-        run: ./k6 run --out dashboard=report=test-report.html  testdashboard.js
+        run: |
+          # Check if test-dashboard.html exists
+          if [ ! -f test-dashboard.html ]; then
+            echo "Creating test-dashboard.html"
+            echo "this is a test content" > test-dashboard.html
+          fi
+            
+          ./k6 run --out dashboard=report=test-dashboard.html testdashboard.js
 
       - name: Archive Performance Test results
         if: always()  # Always run, even if previous steps fail
@@ -36,7 +43,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: k6-Getusers API report
-          path: test-report.html
+          path: test-dashboard.html
       
 
     

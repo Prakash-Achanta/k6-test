@@ -1,9 +1,8 @@
 name: k6 graphQl Test
 
 on:
-  push:
-    branches:
-      - main    # Run at 1 PM every day
+  schedule:
+    - cron: '0 13 * * *' 
 
 jobs:
   k6_local_test:
