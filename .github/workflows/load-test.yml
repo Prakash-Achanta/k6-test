@@ -20,7 +20,7 @@ jobs:
       - name: Archive k6 Test results
         if: always()  # Always run, even if previous steps fail
         run: |
-  
-            # Cleanup old test reports, keep only the last 5
-            ls -t k6-report-* | tail -n +6 | xargs rm -f
+
+          # Cleanup old test reports, keep only the last 5
+          ls -t k6-report-* | tail -n +6 | xargs rm -f
           

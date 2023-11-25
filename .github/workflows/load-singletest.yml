@@ -27,8 +27,6 @@ jobs:
       - name: Archive Performance Test results
         if: always()  # Always run, even if previous steps fail
         run: |
-          # Archive the current test report
-          cp test-report.html "test-report-$(date +'%Y%m%d%H%M%S').html"
 
           # Cleanup old test reports, keep only the last 5
           ls -t test-report-* | tail -n +6 | xargs rm -f
@@ -37,9 +35,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: k6-singleTestreport
-          path: testsingle-report.html
-
-      - name: Send Email on Success
-        if: ${{ success() }}
-        run: |
-            echo "The k6 Load Test job succeeded. See the attached report for details." | mail -s "k6 Load Test Succeeded" -A test-report.html achantas@geekyants.com
+          path: test-report.html
