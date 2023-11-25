@@ -2,9 +2,8 @@
 name: k6 GetUsers API Test with xk6-dashboard extension
 
 on:
-  push:
-    branches:
-      - main  
+  schedule:
+    - cron: '0 13 * * *' 
 
 jobs:
   k6_local_test:

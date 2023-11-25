@@ -9,7 +9,7 @@ const query =`query MyQuery {
       name
     }
   }`
-
+  
   const headers = {
     'Content-Type':'application/json'
   };
