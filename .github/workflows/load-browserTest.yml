@@ -19,11 +19,11 @@ jobs:
       - name: Install xk6
         run: go install go.k6.io/xk6/cmd/xk6@latest
 
-      - name: Build xk6-counter binary
+      - name: Build xk6-dashboard
         run: xk6 build --with github.com/grafana/xk6-dashboard@latest
 
-      - name: Build k6 script
-        run: xk6 build --with github.com/k6io/xk6-browser@latest
+      - name: Build k6-browser script
+        run: xk6 build --with github.com/grafana/xk6-browser@latest
 
       - name: Run k6 extension test
         run: |
