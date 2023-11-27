@@ -22,6 +22,9 @@ jobs:
       - name: Build xk6-counter binary
         run: xk6 build --with github.com/grafana/xk6-dashboard@latest
 
+      - name: Build k6 script
+        run: xk6 build --with github.com/k6io/xk6-browser@latest
+
       - name: Run k6 extension test
         run: |
           # Check if browser-report.html exists
