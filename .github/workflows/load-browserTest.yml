@@ -34,10 +34,21 @@ jobs:
             echo "Creating browser-report.html"
             echo "this is a test content" > browser-report.html
           fi
+          
           export K6_BROWSER_ENABLED=true
-           ./k6 run --out dashboard=report=browser-report.html browserTest.js
+      
+          # Print debugging information
+          echo "Contents of browserTest.js:"
+          cat browserTest.js
+      
+          echo "Environment variables:"
+          printenv
+      
+          # Run k6 test with browser script and dashboard output
+          ./k6 run --out dashboard=report=browser-report.html browserTest.js
         env: 
           K6_BROWSER_ENABLED: TRUE
+      
 
       - name: Archive Performance Test results
         run: |
