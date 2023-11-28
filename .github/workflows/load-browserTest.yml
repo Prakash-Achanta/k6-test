@@ -25,6 +25,7 @@ jobs:
       - name: Build k6-browser script
         run: xk6 build --with github.com/grafana/xk6-browser@latest
 
+
       - name: Run k6 extension test
         run: |
           # Check if browser-report.html exists
@@ -32,8 +33,10 @@ jobs:
             echo "Creating browser-report.html"
             echo "this is a test content" > browser-report.html
           fi
-            
-          K6_BROWSER_HEADLESS=true ./k6 run --out dashboard=report=browser-report.html browserTest.js
+          export K6_BROWSER_ENABLED=true
+           ./k6 run --out dashboard=report=browser-report.html browserTest.js
+        env: 
+          K6_BROWSER_ENABLED: TRUE
 
       - name: Archive Performance Test results
         run: |
