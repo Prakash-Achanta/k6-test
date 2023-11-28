@@ -19,18 +19,15 @@ jobs:
       - name: Install xk6
         run: go install go.k6.io/xk6/cmd/xk6@latest
 
-      - name: Build k6-browser script
+      - name: Build k6-browser
         run: xk6 build --output xk6-browser --with github.com/grafana/xk6-browser
              
 
       - name: Run k6 extension test
         run: |
-          
-          export K6_BROWSER_ENABLED=true
-          set K6_BROWSER_ENABLED=true
-      
+
           # Run k6 test with browser script and dashboard output
-          ./k6 run browserTest.js
+          ./xk6-browser run browserTest.js
         env: 
           K6_BROWSER_ENABLED: true
           K6_BROWSER_HEADLESS: false
