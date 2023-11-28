@@ -33,7 +33,7 @@ jobs:
             echo "this is a test content" > browser-report.html
           fi
             
-          K6_BROWSER_ENABLED=true ./k6 run --out dashboard=report=browser-report.html browserTest.js
+          K6_BROWSER_HEADLESS=true ./k6 run --out dashboard=report=browser-report.html browserTest.js
 
       - name: Archive Performance Test results
         run: |
