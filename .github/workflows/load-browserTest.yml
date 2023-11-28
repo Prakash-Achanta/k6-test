@@ -1,5 +1,5 @@
 
-name: k6 Browser Dashboard Test
+name: k6 Browser Test
 
 on:
     push:
@@ -8,16 +8,13 @@ on:
 
 jobs:
   k6_local_test:
-    name: xk6 dashboard Broswer Test 
+    name: k6 Broswer Test 
     runs-on: ubuntu-latest
     container: docker://golang:1.19-alpine
 
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-
-      - name: Install k6
-        run: go install github.com/loadimpact/k6@latest
       
       - name: Install xk6
         run: go install go.k6.io/xk6/cmd/xk6@latest
@@ -25,46 +22,18 @@ jobs:
       - name: Build k6-browser script
         run: xk6 build --output xk6-browser --with github.com/grafana/xk6-browser
              
-      
-      - name: Build xk6-dashboard
-        run: xk6 build --with github.com/grafana/xk6-dashboard@latest
-
 
       - name: Run k6 extension test
         run: |
-          # Check if browser-report.html exists
-          if [ ! -f browser-report.html ]; then
-            echo "Creating browser-report.html"
-            echo "this is a test content" > browser-report.html
-          fi
           
           export K6_BROWSER_ENABLED=true
-      
-          # Print debugging information
-          echo "Contents of browserTest.js:"
-          cat browserTest.js
-      
-          echo "Environment variables:"
-          printenv
+          set K6_BROWSER_ENABLED=true
       
           # Run k6 test with browser script and dashboard output
-          ./k6 run --out dashboard=report=browser-report.html browserTest.js
+          k6 run browserTest.js
         env: 
-          K6_BROWSER_ENABLED: TRUE
-      
-
-      - name: Archive Performance Test results
-        run: |
-
-          # Cleanup old test reports, keep only the last 5
-          ls -t test-report-* | tail -n +6 | xargs rm -f
-
-
-      - name: Upload Performance Test results
-        uses: actions/upload-artifact@v3
-        with:
-          name: k6-Dashboard-browser
-          path: browser-report.html
+          K6_BROWSER_ENABLED: true
+          K6_BROWSER_HEADLESS: false
       
 
     
