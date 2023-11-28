@@ -30,7 +30,7 @@ jobs:
           set K6_BROWSER_ENABLED=true
       
           # Run k6 test with browser script and dashboard output
-          k6 run browserTest.js
+          ./k6 run browserTest.js
         env: 
           K6_BROWSER_ENABLED: true
           K6_BROWSER_HEADLESS: false
