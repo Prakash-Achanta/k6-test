@@ -16,6 +16,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
 
+      - name: Install k6
+        run: go install github.com/loadimpact/k6@latest
+      
       - name: Install xk6
         run: go install go.k6.io/xk6/cmd/xk6@latest
 
